@@ -53,6 +53,11 @@ body {
   padding: 20px;
 }
 
+.card img {
+  width: 100px;
+  height: auto;
+}
+
 .projects {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
