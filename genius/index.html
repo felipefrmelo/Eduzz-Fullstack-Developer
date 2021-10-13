@@ -1,11 +1,54 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <h1>Genius</h1>
-</body>
+    <link rel="stylesheet" href="styles.css" />
+
+    <script src="game.js"></script>
+    <script src="button.js"></script>
+  </head>
+  <body>
+    <main>
+      <h1>Genius game</h1>
+      <p class="score">
+        Level
+        <strong id="score">0</strong>
+      </p>
+      <section id="game">
+        <div class="button" id="blue"></div>
+        <div class="button" id="red"></div>
+        <div class="button" id="green"></div>
+        <div class="button" id="yellow"></div>
+      </section>
+    </main>
+  </body>
+  <script>
+    const ids = ["blue", "red", "green", "yellow"];
+    const buttons = ids.map((id) => new HtmlButton(id));
+
+    const game = new Game(
+      (buttons) => buttons[Math.floor(Math.random() * 4)].id,
+      ...buttons
+    );
+
+    game.setRender(render);
+    game.start();
+
+    function render() {
+      const score = document.getElementById("score");
+
+      score.innerText = game.level;
+
+      game.sequence.forEach((id, i) => {
+        const htmlButton = document.getElementById(id);
+
+        setTimeout(() => {
+          htmlButton.classList.add("selected");
+          setTimeout(() => htmlButton.classList.remove("selected"), 800);
+        }, i * 800 + 800);
+      });
+    }
+  </script>
 </html>

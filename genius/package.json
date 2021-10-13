@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "test": "jasmine-browser-runner runSpecs"
+  },
   "devDependencies": {
-    "jest": "^27.2.5"
+    "chromedriver": "^94.0.0",
+    "jasmine-browser-runner": "^0.9.0"
   }
 }
