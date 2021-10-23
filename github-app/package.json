@@ -2,7 +2,7 @@
   "name": "github-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://felipefrmelo.github.io/Eduzz-Fullstack-Developer/github-app",
+  "homepage": "https://felipefrmelo.github.io/Eduzz-Fullstack-Developer/github-app/build",
   "dependencies": {
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
