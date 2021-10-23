@@ -9,7 +9,11 @@ import {
 describe("GithubProvider", () => {
   let mockBuilder = (data?: any) => jest.fn(() => Promise.resolve({ data }));
 
-  async function assertFunctionsIsCalled(fn: keyof GithubProviderState) {
+  async function assertFunctionsIsCalled(
+    fn: keyof GithubProviderState,
+    userName: string = "test",
+    url: string = "test"
+  ) {
     const mockFetch = mockBuilder();
     render(
       <GithubProvider fetchGitApi={mockFetch}>
@@ -21,7 +25,7 @@ describe("GithubProvider", () => {
                 <button
                   onClick={() => {
                     const fnToCall = context[fn];
-                    return typeof fnToCall === "function" && fnToCall("test");
+                    return typeof fnToCall === "function" && fnToCall(userName);
                   }}
                 >
                   Get
@@ -37,7 +41,7 @@ describe("GithubProvider", () => {
     const username = await screen.findByText("loading");
     expect(username).toBeInTheDocument();
     expect(mockFetch).toHaveBeenCalledTimes(1);
-    expect(mockFetch).toHaveBeenCalledWith("test");
+    expect(mockFetch).toHaveBeenCalledWith(url);
   }
 
   it("should render", () => {
@@ -75,6 +79,14 @@ describe("GithubProvider", () => {
 
   it("should set loading to true when getUser is called", async () => {
     await assertFunctionsIsCalled("getUser");
+  });
+
+  it("should set loading to true when getRepos is called", async () => {
+    await assertFunctionsIsCalled("getRepos", "test", "test/repos");
+  });
+
+  it("should set loading to true when getStarred is called", async () => {
+    await assertFunctionsIsCalled("getStarred", "test", "test/starred");
   });
 
   it("should set state.user when getUser is called", async () => {

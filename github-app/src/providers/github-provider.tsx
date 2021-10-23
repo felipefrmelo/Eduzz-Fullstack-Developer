@@ -36,33 +36,38 @@ export const GithubProvider = ({
   });
 
   const getUser = async (username: string) => {
-    setState({ ...state, loading: true });
     const response = await fetchGitApi(username);
     const data = await response.data;
-    setState({ ...state, loading: false, user: data });
+    setState({ ...state, user: data });
   };
 
   const getRepos = async (username: string) => {
-    setState({ ...state, loading: true });
     const response = await fetchGitApi(`${username}/repos`);
     const data = await response.data;
-    setState({ ...state, loading: false, repos: data });
+    setState({ ...state, repos: data });
   };
 
   const getStarred = async (username: string) => {
-    setState({ ...state, loading: true });
     const response = await fetchGitApi(`${username}/starred`);
     const data = await response.data;
-    setState({ ...state, loading: false, starred: data });
+    setState({ ...state, starred: data });
   };
+
+  const wrapperLoading =
+    (fn: (...args: any) => Promise<void>) =>
+    async (...args: any) => {
+      setState({ ...state, loading: true });
+      await fn(...args);
+      setState({ ...state, loading: false });
+    };
 
   return (
     <GithubContext.Provider
       value={{
         state,
-        getUser,
-        getRepos,
-        getStarred,
+        getUser: wrapperLoading(getUser),
+        getRepos: wrapperLoading(getRepos),
+        getStarred: wrapperLoading(getStarred),
       }}
     >
       {children}
