@@ -1,9 +1,16 @@
 import { Profile, Repositories, Layout, Loading } from "./components";
 import { useGithubContext } from "./providers/github-provider";
 import { Typography } from "@mui/material";
+import { useEffect } from "react";
 
 function App() {
   const { state, actions } = useGithubContext();
+
+  useEffect(() => {
+    if (state.user === null) {
+      actions.getUser("felipefrmelo");
+    }
+  });
 
   return (
     <Layout onSearch={actions.getUser}>
