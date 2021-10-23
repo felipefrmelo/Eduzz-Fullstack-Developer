@@ -53,7 +53,7 @@ export function Profile({ user }: ProfileProps) {
       </Box>
       <Box>
         <Typography variant="h3">{user.name}</Typography>
-        {renderFieldWithLink("Username", user.username, user.html_url)}
+        {renderFieldWithLink("Username", user.login, user.html_url)}
         {renderField("Company", user.company)}
         {renderField("Location", user.location)}
         {renderFieldWithLink("Blog", user.blog, user.blog)}

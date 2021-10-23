@@ -1,6 +1,6 @@
 export interface User {
   name: string;
-  username: string;
+  login: string;
   company: string;
   location: string;
   blog: string;
@@ -16,4 +16,5 @@ export interface Repository {
   name: string;
   full_name: string;
   language: string;
+  html_url: string;
 }

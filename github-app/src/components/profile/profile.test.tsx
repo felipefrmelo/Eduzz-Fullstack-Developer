@@ -4,7 +4,7 @@ import { User } from "../../entities";
 
 const user: User = {
   name: "John Doe",
-  username: "johndoe",
+  login: "johndoe",
   company: "Company",
   location: "Location",
   blog: "https://blog.com",
@@ -21,7 +21,7 @@ describe("test profile", () => {
     render(<Profile user={user} />);
 
     const name = screen.getByText(user.name);
-    const username = screen.getByText(user.username);
+    const username = screen.getByText(user.login);
     const company = screen.getByText(user.company);
     const location = screen.getByText(user.location);
     const blog = screen.getByText(user.blog);

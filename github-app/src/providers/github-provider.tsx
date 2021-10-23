@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useContext } from "react";
 import { Repository, User } from "../entities";
 
 interface GithubProviderProps {
@@ -8,20 +8,26 @@ interface GithubProviderProps {
   }>;
 }
 
-export interface GithubProviderState {
-  state: {
-    loading: boolean;
-    user: User | null;
-    repos: Repository[];
-    starred: Repository[];
-  };
+interface GithubContextState {
+  user: User | null;
+  repos: Repository[];
+  loading: boolean;
+  starred: Repository[];
+}
+
+export interface GithubContextActions {
   getUser: (username: string) => Promise<void>;
   getRepos: (username: string) => Promise<void>;
   getStarred: (username: string) => Promise<void>;
 }
 
-export const GithubContext = createContext<GithubProviderState>(
-  {} as GithubProviderState
+export interface GithubProviderContext {
+  state: GithubContextState;
+  actions: GithubContextActions;
+}
+
+export const GithubContext = createContext<GithubProviderContext>(
+  {} as GithubProviderContext
 );
 
 export const GithubProvider = ({
@@ -37,37 +43,41 @@ export const GithubProvider = ({
 
   const getUser = async (username: string) => {
     const response = await fetchGitApi(username);
-    const data = await response.data;
-    setState({ ...state, user: data });
+    const data = response.data;
+    setState((s) => ({ ...s, user: data }));
+    getRepos(username);
+    getStarred(username);
   };
 
   const getRepos = async (username: string) => {
     const response = await fetchGitApi(`${username}/repos`);
-    const data = await response.data;
-    setState({ ...state, repos: data });
+    const data = response.data;
+    setState((s) => ({ ...s, repos: data }));
   };
 
   const getStarred = async (username: string) => {
     const response = await fetchGitApi(`${username}/starred`);
-    const data = await response.data;
-    setState({ ...state, starred: data });
+    const data = response.data;
+    setState((s) => ({ ...s, starred: data }));
   };
 
   const wrapperLoading =
     (fn: (...args: any) => Promise<void>) =>
     async (...args: any) => {
-      setState({ ...state, loading: true });
+      setState((s) => ({ ...s, loading: true }));
       await fn(...args);
-      setState({ ...state, loading: false });
+      setState((s) => ({ ...s, loading: false }));
     };
 
   return (
     <GithubContext.Provider
       value={{
         state,
-        getUser: wrapperLoading(getUser),
-        getRepos: wrapperLoading(getRepos),
-        getStarred: wrapperLoading(getStarred),
+        actions: {
+          getUser: wrapperLoading(getUser),
+          getRepos: wrapperLoading(getRepos),
+          getStarred: wrapperLoading(getStarred),
+        },
       }}
     >
       {children}
@@ -75,6 +85,10 @@ export const GithubProvider = ({
   );
 };
 
-// const response = await fetch(
-//     `https://api.github.com/users/${username}/starred`
-//   );
+export const useGithubContext = () => {
+  const context = useContext(GithubContext);
+  if (!context) {
+    throw new Error("useGithubContext must be used within a GithubProvider");
+  }
+  return context;
+};

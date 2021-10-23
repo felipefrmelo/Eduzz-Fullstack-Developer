@@ -1,11 +1,13 @@
 import faker from "faker";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { Repositories, Repository } from ".";
+import { Repositories } from ".";
+import { Repository } from "../../entities";
 
 const makeRepository = (): Repository => ({
   name: faker.random.word() + faker.datatype.uuid(),
   full_name: faker.random.word() + faker.datatype.uuid(),
   language: faker.random.words() + faker.datatype.uuid(),
+  html_url: faker.internet.url(),
 });
 
 const repositories: Repository[] = [...Array(10)].map(makeRepository);

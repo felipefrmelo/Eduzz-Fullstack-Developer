@@ -1,12 +1,8 @@
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { TabProps, Tab } from "..";
-
-export interface Repository {
-  name: string;
-  full_name: string;
-  language: string;
-}
+import { Chip } from "@mui/material";
+import { Repository } from "../../entities";
 
 interface RepositoriesProps {
   repos?: Repository[];
@@ -66,16 +62,20 @@ function RepositoryItem(repo: Repository): JSX.Element {
         borderRadius: 2,
       }}
       boxShadow={5}
+      display="flex"
+      flexDirection="column"
+      alignItems="baseline"
+      justifyContent="space-between"
     >
       <Typography variant="h6" gutterBottom>
         {repo.name}
       </Typography>
       <Typography variant="body2" gutterBottom>
-        {repo.full_name}
+        <a target="_blank" rel="noopener noreferrer" href={repo.html_url}>
+          {repo.full_name}
+        </a>
       </Typography>
-      <Typography variant="body2" gutterBottom>
-        {repo.language}
-      </Typography>
+      <Chip size="small" label={repo.language} />
     </Box>
   );
 }
