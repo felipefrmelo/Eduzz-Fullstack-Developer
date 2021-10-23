@@ -3,7 +3,7 @@ import { Search } from ".";
 
 describe("Search", () => {
   it("should render", () => {
-    render(<Search />);
+    render(<Search onSearch={() => {}} />);
     const searchInput = screen.getByRole("textbox");
     const searchButton = screen.getByRole("button");
     expect(searchInput).toBeInTheDocument();
