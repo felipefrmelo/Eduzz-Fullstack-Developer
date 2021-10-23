@@ -1,5 +1,6 @@
 import { screen, render } from "@testing-library/react";
-import { Profile, User } from ".";
+import { Profile } from ".";
+import { User } from "../../entities";
 
 const user: User = {
   name: "John Doe",

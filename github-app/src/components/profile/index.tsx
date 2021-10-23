@@ -1,18 +1,6 @@
 import { Avatar, Box, Grid, Typography } from "@mui/material";
+import { User } from "../../entities";
 
-export interface User {
-  name: string;
-  username: string;
-  company: string;
-  location: string;
-  blog: string;
-  followers: number;
-  following: number;
-  public_repos: number;
-  public_gists: number;
-  avatar_url: string;
-  html_url: string;
-}
 
 interface ProfileProps {
   user: User;
