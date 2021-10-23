@@ -12,6 +12,7 @@ const user: User = {
   public_repos: 30,
   public_gists: 40,
   avatar_url: "https://avatar.com",
+  html_url: "https://johndoe.com",
 };
 
 describe("test profile", () => {
@@ -29,11 +30,11 @@ describe("test profile", () => {
     const public_gists = screen.getByText(user.public_gists);
     const avatar_url = screen.getByAltText(user.name);
 
+    expect(username).toHaveAttribute("href", user.html_url);
+    expect(blog).toHaveAttribute("href", user.blog);
     expect(name).toBeInTheDocument();
-    expect(username).toBeInTheDocument();
     expect(company).toBeInTheDocument();
     expect(location).toBeInTheDocument();
-    expect(blog).toBeInTheDocument();
     expect(followers).toBeInTheDocument();
     expect(following).toBeInTheDocument();
     expect(public_repos).toBeInTheDocument();

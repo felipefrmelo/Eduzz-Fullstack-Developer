@@ -1,4 +1,4 @@
-import React from "react";
+import { Avatar, Box, Grid, Typography } from "@mui/material";
 
 export interface User {
   name: string;
@@ -11,6 +11,7 @@ export interface User {
   public_repos: number;
   public_gists: number;
   avatar_url: string;
+  html_url: string;
 }
 
 interface ProfileProps {
@@ -18,18 +19,64 @@ interface ProfileProps {
 }
 
 export function Profile({ user }: ProfileProps) {
+  const renderField = (label: string, text: string) => (
+    <Box my={1}>
+      <Typography variant="body1">
+        <strong> {label}:</strong> {text}
+      </Typography>
+    </Box>
+  );
+
+  const renderFieldWithLink = (label: string, text: string, link: string) => (
+    <Box my={1}>
+      <Typography variant="body1">
+        <strong> {label}:</strong>{" "}
+        <a target="_blank" href={link} rel="noreferrer">
+          {text}
+        </a>
+      </Typography>
+    </Box>
+  );
+  const renderFieldVert = (label: string, text: number) => (
+    <Grid item xs={3}>
+      <Typography variant="body2" textAlign="center">
+        <strong> {label}</strong>
+      </Typography>
+      <Typography variant="body2" textAlign="center">
+        {text}
+      </Typography>
+    </Grid>
+  );
+
   return (
-    <div>
-      <img src={user.avatar_url} alt={user.name} />
-      <h1>{user.name}</h1>
-      <p>{user.username}</p>
-      <p>{user.company}</p>
-      <p>{user.location}</p>
-      <p>{user.blog}</p>
-      <p>{user.followers}</p>
-      <p>{user.following}</p>
-      <p>{user.public_repos}</p>
-      <p>{user.public_gists}</p>
-    </div>
+    <Box
+      maxWidth={600}
+      display="grid"
+      gridTemplateColumns="repeat(auto-fit, minmax(256px, 1fr))"
+      alignItems="center"
+      padding={2}
+    >
+      <Box>
+        <Avatar
+          src={user.avatar_url}
+          alt={user.name}
+          sx={{ width: 256, height: 256 }}
+        />
+      </Box>
+      <Box>
+        <Typography variant="h3">{user.name}</Typography>
+        {renderFieldWithLink("Username", user.username, user.html_url)}
+        {renderField("Company", user.company)}
+        {renderField("Location", user.location)}
+        {renderFieldWithLink("Blog", user.blog, user.blog)}
+
+        <Grid container spacing={2}>
+          {renderFieldVert("Followers", user.followers)}
+          {renderFieldVert("Following", user.following)}
+          {renderFieldVert("Repos", user.public_repos)}
+          {renderFieldVert("Gists", user.public_gists)}
+        </Grid>
+      </Box>
+    </Box>
   );
 }
