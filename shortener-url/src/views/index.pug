@@ -1,0 +1,33 @@
+html
+  head
+    title Shortened URL
+    link(rel="stylesheet", href="css/style.css")
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    style
+       
+  body
+    header.header
+      h1 Short URL
+
+    main.container
+      if shortUrl
+        h2 Your shortened URL
+        p Short URL: 
+          a.re(href=shortUrl, target="_blank")= shortUrl
+        p Long URL: 
+          a.re(href=url, target="_blank")= url
+
+      else 
+        h2 Paste the URL to be shortened
+
+      form(action="/shortner", method="post")
+          label(for="url")
+          input(type="text" name="url", required)
+          button(type="submit") Shorten URL
+
+      if error
+        spam.error=error
+
+    
