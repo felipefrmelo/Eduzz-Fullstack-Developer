@@ -9,6 +9,21 @@
             "name": "shortener-url",
             "database": "shortener_url",
             "username": "postgres"
+        },
+        {
+            "pgOptions": {
+                "ssl": {
+                    "rejectUnauthorized": false,
+                    "requestCert": true
+                }
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "herokupg",
+            "connectString": "postgres://tkjyiidmxnkxql:4f2c88272c5126727b098761138110b7529a8c03f09f92ce3f20b345dd6ce3e0@ec2-54-160-35-196.compute-1.amazonaws.com:5432/d478lr6fljbtrc"
         }
     ]
 }
