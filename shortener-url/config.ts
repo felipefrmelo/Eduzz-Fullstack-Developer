@@ -7,5 +7,6 @@ export const config = {
     database: process.env.DB_NAME || "shortener_url",
     user: process.env.DB_USER || "postgres",
     password: process.env.DB_PASSWORD || "postgres",
+    connectionString: process.env.DATABASE_URL
   },
 };

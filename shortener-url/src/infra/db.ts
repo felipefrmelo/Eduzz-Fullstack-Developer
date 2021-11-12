@@ -1,8 +1,19 @@
-import  pg from "pg";
+import pg from "pg";
 import { config } from "../../config";
 import fs from "fs";
 
-const client = new pg.Client(config.db);
+const { connectionString, ...db } = config.db;
+const client = new pg.Client(
+  connectionString
+    ? {
+        connectionString,
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      }
+    : db
+);
+
 const sql = fs.readFileSync("./sql/create_table_urls.sql").toString();
 
 export const newClient = async () => {
