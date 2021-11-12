@@ -40,7 +40,7 @@ export class ShortenerService {
   }
 
   private makeURL(hash: string): string {
-    return `${this.baseURL}/${hash}`;
+    return `${this.baseURL}/${hash}`.replace(/https?:\/\//, "");
   }
 
   private isInvalidURL(url: string) {
